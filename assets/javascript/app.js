@@ -36,28 +36,56 @@ $(document).ready(function () {
     var tenSeconds = 10; 
     var fourSeconds = 4; 
 
+    console.log(questionBank.length)
+    
+    generateQuestion(); 
 
-    $("#random-question").text(questionBank[0].question); 
+    
 
+    function generateQuestion () {
 
-    for (i=0; i<4; i++) {
-        var a = $("<button>"); 
-        a.addClass("choice"); 
-        a.attr("data-name", questionBank[0].choices[i]); 
-        a.text(questionBank[0].choices[i]); 
-        $("#answers").append(a)
-        console.log(questionBank[0].choices[i]);
+        randomNumber = Math.floor(Math.random() * (5) + 1);
+
+        $("#random-question").text(questionBank[randomNumber].question); 
+        
+        for (i=0; i < 4; i++) {
+
+            var a = $("<button>"); 
+            a.addClass("choice"); 
+            a.attr("data-value", i); 
+            a.attr("data-name", questionBank[randomNumber].choices[i]); 
+            a.text(questionBank[randomNumber].choices[i]); 
+            $(".answers").append(a)
+            
+        }
+
+        $(".choice").on("click", function(){
+            console.log(this) 
+            var number = $(this).attr("data-value"); 
+            console.log(number); 
+            console.log(questionBank[randomNumber].answer);
+
+            if (number == questionBank[randomNumber].answer) {
+                alert("you win"); 
+            }
+            else {
+                alert("you lose"); 
+            }
+        })
+
     }
+
+    function clearQuestion () {
+        $("#random-question").empty(); 
+        $(".answers").empty(); 
+    }
+
     
-    $("#answers").on("click", function(){
-        if (questionBank[0].choices[0] === "The Golden Snitch") {
-            alert("you win"); 
-        }
-        else {
-            alert("you lose"); 
-        }
-    })
+
+
     
+    
+  
 
 
    // var audio = new Audio("harry potter music")
