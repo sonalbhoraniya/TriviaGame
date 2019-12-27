@@ -70,7 +70,7 @@ $(document).ready(function () {
     var correctCount = 0;
     var incorrectCount = 0;
     var currentQuestion = -1;
-    var seconds = 5;
+    var seconds = 60;
     var intervalId;
     var audio = new Audio("assets/images/thememusic.mp3")
     var a = $("<button>");
@@ -198,25 +198,16 @@ $(document).ready(function () {
         correctCount = 0;
         incorrectCount = 0;
         currentQuestion = -1;
-        seconds = 5;
+        seconds = 60;
         intervalId;
         
 
         $("#timer").empty(); 
-        // $(".questionblock").empty();    
-        // $("#random-question").empty();
-        // $("#answers").empty();
+        
         $("#correct-guesses").empty();
         $("#incorrect-guesses").empty();
         $("#house-points").empty();
-        // $(".wronganswer").empty();
-        // $(".answerimage").empty();
-
-        // $(".questionblock").hide();
-        // $("#random-question").hide();
-        // $(".answers").hide();
-        // $(".wronganswer").hide();
-        // $(".answerimage").hide();
+        
         $("#score-block").hide();
 
         letsPlay(); 
