@@ -88,11 +88,9 @@ $(document).ready(function () {
             if (correctCount + incorrectCount != questionBank.length) {
                 incorrectCount = questionBank.length - correctCount;
             }
-
             stop();
             gameStats();
         }
-        
     }
 
     function run() {
@@ -111,11 +109,13 @@ $(document).ready(function () {
     function generateQuestion() {
 
         clearQuestion();
-        $(".questionblock").show();
 
         $(".answers").empty();
 
+        $("#random-question").show();
+        
         $("#random-question").text(questionBank[currentQuestion + 1].question);
+        console.log(questionBank[currentQuestion + 1].question);
 
         for (j = 0; j < 4; j++) {
             var a = $("<button>");
@@ -128,7 +128,6 @@ $(document).ready(function () {
         }
 
         $(".choice").on("click", function () {
-
 
             var number = $(this).attr("data-value");
             var correctAnswer = questionBank[currentQuestion + 1].answer;
@@ -145,7 +144,7 @@ $(document).ready(function () {
                     setTimeout(generateQuestion, 1000 * 3);
                 } else {
                     stop();
-                    setTimeout(gameStats, 1000 * 3);
+                    gameStats();   
                 }
             }
             else {
@@ -159,7 +158,7 @@ $(document).ready(function () {
                     setTimeout(generateQuestion, 1000 * 3);
                 } else {
                     stop();
-                    setTimeout(gameStats, 1000 * 3);
+                    gameStats();  
                 }
             }
         })
@@ -174,17 +173,19 @@ $(document).ready(function () {
         $(".questionblock").show();
         $(".wronganswer").empty();
         $(".answerimage").empty();
+        
     }
 
     // collects and displays the game stats 
 
     function gameStats() {
 
-        $(".questionblock").empty();
-        $("#random-question").empty();
-        $(".answers").empty();
-        $(".wronganswer").empty();
-        $(".answerimage").empty();
+        currentQuestion = questionBank.length; 
+        $(".questionblock").hide();
+        $("#random-question").hide();
+        $(".answers").hide();
+        $(".wronganswer").hide();
+        $(".answerimage").hide();
         $("#score-block").show();
         $(".btn-warning").show();
         $("#correct-guesses").text("Correct Guesses: " + correctCount)
@@ -199,20 +200,23 @@ $(document).ready(function () {
         currentQuestion = -1;
         seconds = 5;
         intervalId;
+        
 
         $("#timer").empty(); 
-        $(".questionblock").empty();    
-        $("#random-question").empty();
-        $("#answers").empty();
-        $("#score-block").empty();
-        $(".wronganswer").empty();
-        $(".answerimage").empty();
+        // $(".questionblock").empty();    
+        // $("#random-question").empty();
+        // $("#answers").empty();
+        $("#correct-guesses").empty();
+        $("#incorrect-guesses").empty();
+        $("#house-points").empty();
+        // $(".wronganswer").empty();
+        // $(".answerimage").empty();
 
-        $(".questionblock").hide();
-        $("#random-question").hide();
-        $(".answers").hide();
-        $(".wronganswer").hide();
-        $(".answerimage").hide();
+        // $(".questionblock").hide();
+        // $("#random-question").hide();
+        // $(".answers").hide();
+        // $(".wronganswer").hide();
+        // $(".answerimage").hide();
         $("#score-block").hide();
 
         letsPlay(); 
@@ -222,23 +226,24 @@ $(document).ready(function () {
 
     // calls the function to begin playing the game when the user press starts 
 
+    
+
     function letsPlay() {
 
         $(".btn-warning").hide();
         $(".start-button").show();
         $(".questionblock").hide();
         
-
         $(".start-button").on("click", function () {
 
             $(".start-button").hide();
-
+    
             $(".questionblock").show();
             $("#random-question").show();
             $(".answers").show();
             $(".wronganswer").show();
             $(".answerimage").show();
-
+    
             run();
             generateQuestion();
             
