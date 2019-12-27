@@ -33,95 +33,80 @@ $(document).ready(function () {
 
     var correctCount = 0;
     var incorrectCount = 0;
-    var tenSeconds = 10;
-    var fourSeconds = 4;
+    var currentQuestion = -1;
 
 
-    generateQuestion();
 
     function generateQuestion() {
 
-        randomNumber = Math.floor(Math.random() * (5) + 1);
+        clearQuestion();
 
-        $("#random-question").text(questionBank[randomNumber].question);
+        $(".answers").empty();
 
-        for (i = 0; i < 4; i++) {
+        $("#random-question").text(questionBank[currentQuestion + 1].question);
 
+
+
+        for (j = 0; j < 4; j++) {
             var a = $("<button>");
             a.addClass("choice");
-            a.attr("data-value", i);
-            a.attr("data-name", questionBank[randomNumber].choices[i]);
-            a.text(questionBank[randomNumber].choices[i]);
-            $(".answers").append(a)
+            a.attr("data-value", j);
+            a.attr("data-name", questionBank[currentQuestion + 1].choices[j]);
+            a.text(questionBank[currentQuestion + 1].choices[j]);
+            $(".answers").append(a);
+
 
         }
 
         $(".choice").on("click", function () {
-            console.log(this)
-            var number = $(this).attr("data-value");
-            var correctAnswer = questionBank[randomNumber].answer;
-            console.log(number);
-            
-            console.log(correctAnswer);
 
-            if (number == questionBank[randomNumber].answer) {
-               $(".wronganswer").text("Correct Answer!");
+            var number = $(this).attr("data-value");
+            var correctAnswer = questionBank[currentQuestion + 1].answer;
+
+
+
+            if (number == questionBank[currentQuestion + 1].answer) {
+                $(".wronganswer").text("Correct Answer!");
+                correctCount++;
+                currentQuestion++
+                $(".choice").unbind("click")
+                console.log(currentQuestion)
+                if (currentQuestion + 1 < questionBank.length) {
+                    setTimeout(generateQuestion, 1000 * 2);
+                } else {
+                    alert("game over");
+                }
             }
             else {
-                console.log(number); 
-                $(".wronganswer").text("Wrong Answer.  The correct answer is " + questionBank[randomNumber].choices[correctAnswer]); 
-                //clearQuestion(); 
-                //generateQuestion(); 
+
+                $(".wronganswer").text("Wrong Answer.  The correct answer is " + questionBank[currentQuestion + 1].choices[correctAnswer]);
+                incorrectCount++;
+                currentQuestion++;
+                $(".choice").unbind("click")
+                if (currentQuestion + 1 < questionBank.length) {
+                    setTimeout(generateQuestion, 1000 * 2);
+                } else {
+                    alert("game over");
+                }
+
+
             }
+
+
         })
 
+
     }
+
 
     function clearQuestion() {
         $("#random-question").empty();
         $(".answers").empty();
+        $(".wronganswer").empty();
     }
 
-
-
-
-
-
-
-
+    generateQuestion();
 
     // var audio = new Audio("harry potter music")
-
-    //    setTimeout(tenSeconds, 1000 *10); 
-
-    //     function tenSeconds() {
-    //         $("#timer").text(seconds); 
-    //     }
-
-    //     function longDecrement() {
-    //         tenSeconds--;
-
-    //     }
-
-
-
-
-    // generate random question from array 
-    // need to distinguish between wrong and correct answers (variable for correct answer?)
-
-    // set a timer to run for each question 
-
-    // function to generate & display a random question and answers 
-
-    // conditional statements
-
-    // if right answer is clicked, display congrats view, after a few seconds run function generate new question
-
-    // if wrong answer is clicked, display wrong answer view, after a few seconds run function generate new question
-
-    // if timer runs out before answer is clicked, display time out view, after a few seconds run function generate new question
-
-    // display overall game stats at end 
-
 
 })
