@@ -70,7 +70,7 @@ $(document).ready(function () {
     var correctCount = 0;
     var incorrectCount = 0;
     var currentQuestion = -1;
-    var seconds = 60;
+    var seconds = 160;
     var intervalId;
     var audio = new Audio("assets/images/thememusic.mp3")
     var a = $("<button>");
@@ -198,7 +198,7 @@ $(document).ready(function () {
         correctCount = 0;
         incorrectCount = 0;
         currentQuestion = -1;
-        seconds = 60;
+        seconds = 160;
         intervalId;
         
 
