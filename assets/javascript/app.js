@@ -33,6 +33,36 @@ $(document).ready(function () {
             answer: 3,
             image: "<img src=assets/images/boneless.jpg>"
         },
+        {
+            question: "Which dragon does Viktor Krum face in the first task of the Triwizard Tournament?",
+            choices: ["Hungarian Horntail", "Chinese Fireball", "Swedish Short-Snout", "Common Welsh Green"],
+            answer: 1, 
+            image: "<img src=assets/images/dragon.png>"
+        },
+        {
+            question: "Which of the following is not a trait of Slytherin house?",
+            choices: ["Determination", "Cunning", "Ambition", "Wit"],
+            answer: 3,
+            image: "<img src=assets/images/slytherin.jpg>"
+        },
+        {
+            question: "What make and model of car did Harry and Ron fly to school in Chamber of Secrets?",
+            choices: ["Chevrolet Camaro", "Pontiac Tempest", "Ford Anglia", "Volkswagen Jetta"],
+            answer: 2,
+            image: "<img src=assets/images/car.jpg>"
+        },
+        {
+            question: "Which of these is not one of Albus Dumbledore’s middle names?",
+            choices: ["Wulfric", "Aurelius", "Percival", "Brian"],
+            answer: 0,
+            image: "<img src=assets/images/dumbledore.jpg>"
+        },
+        {
+            question: "How fast can the Firebolt go from 0-150 mph?",
+            choices: ["10 seconds", "14 seconds", "8 seconds", "15 seconds"],
+            answer: 0, 
+            image: "<img src=assets/images/firebolt.jpg>"
+        },
     ]
 
     // initial variables declared 
@@ -40,7 +70,7 @@ $(document).ready(function () {
     var correctCount = 0;
     var incorrectCount = 0;
     var currentQuestion = -1;
-    var seconds = 30;
+    var seconds = 60;
     var intervalId;
     var audio = new Audio("assets/images/thememusic.mp3")
 
@@ -51,6 +81,11 @@ $(document).ready(function () {
         seconds--;
         if (seconds === 0) {
             $("#timer").html("Time's up!");
+            $("#harrypotter2").hide(); 
+            if (correctCount + incorrectCount != questionBank.length) {
+                incorrectCount = questionBank.length - correctCount; 
+            }
+
             stop();
             gameStats();
         }
@@ -93,8 +128,8 @@ $(document).ready(function () {
             var correctAnswer = questionBank[currentQuestion + 1].answer;
 
             if (number == questionBank[currentQuestion + 1].answer) {
-                $(".answers").hide(); 
-                $(".wronganswer").text("Correct Answer! " +  questionBank[currentQuestion + 1].choices[correctAnswer]);
+                //$(".answers").hide(); 
+                $(".wronganswer").html("Correct Answer! " + questionBank[currentQuestion + 1].choices[correctAnswer] + ". <br />  You gain 10 house points");
                 $(".answerimage").html(questionBank[currentQuestion + 1].image);
                 correctCount++;
                 currentQuestion++
@@ -108,8 +143,8 @@ $(document).ready(function () {
                 }
             }
             else {
-                $(".answers").hide(); 
-                $(".wronganswer").text("Wrong Answer.  The correct answer is " + questionBank[currentQuestion + 1].choices[correctAnswer]);
+                //$(".answers").hide(); 
+                $(".wronganswer").html("Wrong Answer, you lose 10 house points! <br /> The correct answer is " + questionBank[currentQuestion + 1].choices[correctAnswer]+".");
                 $(".answerimage").html(questionBank[currentQuestion + 1].image);
                 incorrectCount++;
                 currentQuestion++;
@@ -138,13 +173,11 @@ $(document).ready(function () {
     // collects and displays the game stats 
 
     function gameStats() {
-        $("#random-question").hide(); 
-        $(".answers").hide();
-        $(".wronganswer").hide();
-        $(".answerimage").hide(); 
-        $(".questionblock").hide(); 
+       
+        $("#score-block").show();
         $("#correct-guesses").text("Correct Guesses: " + correctCount)
         $("#incorrect-guesses").text("Incorrect Guesses: " + incorrectCount)
+        $("#house-points").text("You earned: " + (correctCount - incorrectCount)*10 + " house points!")
     }
 
     // calls the function to begin playing the game when the user press starts 
@@ -152,6 +185,8 @@ $(document).ready(function () {
     function letsPlay() {
         $("#timer").hide();
         $(".questionblock").hide(); 
+        $("#score-block").hide(); 
+
         var a = $("<button>");
         a.text("Start");
         $(".start-button").append(a);
