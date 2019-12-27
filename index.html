@@ -9,47 +9,74 @@
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|PT+Sans+Narrow|Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|PT+Sans+Narrow|Shadows+Into+Light&display=swap"
+        rel="stylesheet">
     <title>Document</title>
 </head>
 
 <body>
+    <div class=mapbackground>
+        <!-- Title, put in jumbotron -->
 
-    <!-- Title, put in jumbotron -->
+        <div id="title">
 
-    <div class="jumbotron" id="title">
 
-        <h1 id="header-font">Trivia Game!</h1>
+            <h1 id="header-font">Harry Potter Trivia!</h1>
+
+            <img id="harrypotter1" src="assets/images/jumbotron_image.jpg">
+
+
+
+
+        </div>
+
+
+
+        <!-- Start Button -->
+
+        <div class="start-button"></div>
+
+
+        <!-- Time Remaining -->
+
+        <div class="container timeimage">
+            <img id="harrypotter2" src="assets/images/timeturner.jpg" alt="Time Turner">
+            <div class="text-block">
+                <h4 id="timer"></h4>
+            </div>
+        </div>
+
+
+        <!-- Trivia Question -->
+
+        <div class="questionblock">
+
+            <div id="random-question"></div>
+
+            <!-- Trivia Answers -->
+
+            <div class="answers"></div>
+
+        </div>
+
+        <!-- Out of time -->
+
+        <div class="timeout"></div>
+
+        <!-- Wrong Answer -->
+
+        <div class="wronganswer"></div>
+        <div class="answerimage"></div>
+
+        <!-- Final Game Stats -->
+
+        <div id="score-block">
+            <div id="correct-guesses"></div>
+            <div id="incorrect-guesses"></div>
+        </div>
 
     </div>
 
-
-    <!-- Time Remaining -->
-
-    <div id="timer"></div>
-
-
-    <!-- Trivia Question -->
-
-    <div id="random-question"></div>
-
-    <!-- Trivia Answers -->
-
-    <div class="answers"></div>
-
-
-
-    <!-- Out of time -->
-
-    <div class="timeout"></div>
-
-    <!-- Wrong Answer -->
-
-    <div class="wronganswer"></div>
-
-    <!-- Final Game Stats -->
-
-    <div id="score-block"></div>
 
     <!-- Link to javascript file -->
 
