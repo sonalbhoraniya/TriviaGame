@@ -36,7 +36,7 @@ $(document).ready(function () {
         {
             question: "Which dragon does Viktor Krum face in the first task of the Triwizard Tournament?",
             choices: ["Hungarian Horntail", "Chinese Fireball", "Swedish Short-Snout", "Common Welsh Green"],
-            answer: 1, 
+            answer: 1,
             image: "<img src=assets/images/dragon.png>"
         },
         {
@@ -60,7 +60,7 @@ $(document).ready(function () {
         {
             question: "How fast can the Firebolt go from 0-150 mph?",
             choices: ["10 seconds", "14 seconds", "8 seconds", "15 seconds"],
-            answer: 0, 
+            answer: 0,
             image: "<img src=assets/images/firebolt.jpg>"
         },
     ]
@@ -70,9 +70,12 @@ $(document).ready(function () {
     var correctCount = 0;
     var incorrectCount = 0;
     var currentQuestion = -1;
-    var seconds = 60;
+    var seconds = 5;
     var intervalId;
     var audio = new Audio("assets/images/thememusic.mp3")
+    var a = $("<button>");
+    a.text("Start");
+    $(".start-button").append(a);
 
     // functions to create a timer for the player to play within; if the player runs out of time, then the game is over 
 
@@ -81,18 +84,20 @@ $(document).ready(function () {
         seconds--;
         if (seconds === 0) {
             $("#timer").html("Time's up!");
-            $("#harrypotter2").hide(); 
+            //$("#harrypotter2").hide();
             if (correctCount + incorrectCount != questionBank.length) {
-                incorrectCount = questionBank.length - correctCount; 
+                incorrectCount = questionBank.length - correctCount;
             }
 
             stop();
             gameStats();
         }
+        
     }
 
     function run() {
         $("#timer").text("Time Left: " + seconds);
+        clearInterval(intervalId);
         intervalId = setInterval(decrement, 1000);
         audio.play();
     }
@@ -106,6 +111,7 @@ $(document).ready(function () {
     function generateQuestion() {
 
         clearQuestion();
+        $(".questionblock").show();
 
         $(".answers").empty();
 
@@ -122,13 +128,13 @@ $(document).ready(function () {
         }
 
         $(".choice").on("click", function () {
-            
+
 
             var number = $(this).attr("data-value");
             var correctAnswer = questionBank[currentQuestion + 1].answer;
 
             if (number == questionBank[currentQuestion + 1].answer) {
-                //$(".answers").hide(); 
+                $(".questionblock").hide();
                 $(".wronganswer").html("Correct Answer! " + questionBank[currentQuestion + 1].choices[correctAnswer] + ". <br />  You gain 10 house points");
                 $(".answerimage").html(questionBank[currentQuestion + 1].image);
                 correctCount++;
@@ -139,12 +145,12 @@ $(document).ready(function () {
                     setTimeout(generateQuestion, 1000 * 3);
                 } else {
                     stop();
-                    gameStats();
+                    setTimeout(gameStats, 1000 * 3);
                 }
             }
             else {
-                //$(".answers").hide(); 
-                $(".wronganswer").html("Wrong Answer, you lose 10 house points! <br /> The correct answer is " + questionBank[currentQuestion + 1].choices[correctAnswer]+".");
+                $(".questionblock").hide();
+                $(".wronganswer").html("Wrong Answer, you lose 10 house points! <br /> The correct answer is " + questionBank[currentQuestion + 1].choices[correctAnswer] + ".");
                 $(".answerimage").html(questionBank[currentQuestion + 1].image);
                 incorrectCount++;
                 currentQuestion++;
@@ -153,7 +159,7 @@ $(document).ready(function () {
                     setTimeout(generateQuestion, 1000 * 3);
                 } else {
                     stop();
-                    gameStats();
+                    setTimeout(gameStats, 1000 * 3);
                 }
             }
         })
@@ -165,44 +171,83 @@ $(document).ready(function () {
         $("#random-question").empty();
         $(".answers").empty();
         $(".answers").show();
-        $(".questionblock").show(); 
+        $(".questionblock").show();
         $(".wronganswer").empty();
-        $(".answerimage").empty(); 
+        $(".answerimage").empty();
     }
 
     // collects and displays the game stats 
 
     function gameStats() {
-       
+
+        $(".questionblock").empty();
+        $("#random-question").empty();
+        $(".answers").empty();
+        $(".wronganswer").empty();
+        $(".answerimage").empty();
         $("#score-block").show();
+        $(".btn-warning").show();
         $("#correct-guesses").text("Correct Guesses: " + correctCount)
         $("#incorrect-guesses").text("Incorrect Guesses: " + incorrectCount)
-        $("#house-points").text("You earned: " + (correctCount - incorrectCount)*10 + " house points!")
+        $("#house-points").text("You earned: " + (correctCount - incorrectCount) * 10 + " house points!")
+        
+    }
+
+    function gameReset() {
+        correctCount = 0;
+        incorrectCount = 0;
+        currentQuestion = -1;
+        seconds = 5;
+        intervalId;
+
+        $("#timer").empty(); 
+        $(".questionblock").empty();    
+        $("#random-question").empty();
+        $("#answers").empty();
+        $("#score-block").empty();
+        $(".wronganswer").empty();
+        $(".answerimage").empty();
+
+        $(".questionblock").hide();
+        $("#random-question").hide();
+        $(".answers").hide();
+        $(".wronganswer").hide();
+        $(".answerimage").hide();
+        $("#score-block").hide();
+
+        letsPlay(); 
+
+        
     }
 
     // calls the function to begin playing the game when the user press starts 
 
     function letsPlay() {
-        $("#timer").hide();
-        $(".questionblock").hide(); 
-        $("#score-block").hide(); 
 
-        var a = $("<button>");
-        a.text("Start");
-        $(".start-button").append(a);
+        $(".btn-warning").hide();
+        $(".start-button").show();
+        $(".questionblock").hide();
+        
 
         $(".start-button").on("click", function () {
 
             $(".start-button").hide();
-            $("#timer").show();
-            $(".questionblock").show(); 
-            
+
+            $(".questionblock").show();
+            $("#random-question").show();
+            $(".answers").show();
+            $(".wronganswer").show();
+            $(".answerimage").show();
+
             run();
             generateQuestion();
-
+            
         })
     }
 
     letsPlay();
 
+    $(".btn-warning").on("click", function () {
+        gameReset();
+    })
 })
